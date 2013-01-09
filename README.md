@@ -1,7 +1,7 @@
-LaTeXAccents
-============
-
-Decode and encode letters with accents in LaTeX
+LaTeXAccents for Sublime Text 2
+===============================
+This is a plugin for [Sublime Text 2](http://www.sublimetext.com/2).
+It decode and encode letters with accents in LaTeX files.
 
 
 Installation
