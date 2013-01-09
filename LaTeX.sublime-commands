@@ -1,0 +1,4 @@
+[
+	{ "caption": "LaTeXAccents: Encode accents", "command": "encode_latex_accents"},
+	{ "caption": "LaTeXAccents: Decode accents", "command": "decode_latex_accents"}
+]
