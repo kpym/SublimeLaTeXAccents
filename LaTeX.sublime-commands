@@ -1,6 +1,6 @@
 [
-	{ "caption": "LaTeXAccents: Encode accents", "command": "latex_accents", 
+	{ "caption": "LaTeX Accents: Encode accents", "command": "latex_accents", 
                 "args": {"action": "encode"}},
-	{ "caption": "LaTeXAccents: Decode accents", "command": "latex_accents", 
+	{ "caption": "LaTeX Accents: Decode accents", "command": "latex_accents", 
                 "args": {"action": "decode"}}
 ]

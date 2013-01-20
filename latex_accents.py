@@ -4,19 +4,27 @@ import re
 
 class LatexAccentsCommand(sublime_plugin.TextCommand):
 	def run(self, edit, action="decode"):
-		# --- get regions to decode/encode
+		# --- save position to restore at the end
 		vpos = self.view.viewport_position()
-		regions_empty = []
-		regions = self.view.sel()
-		for region in regions :
-			if region.empty():
-				regions.subtract(region)
-				regions_empty.append(self.view.rowcol(region.a))
-		if not regions :
-			# take the entire document
-			regions = [sublime.Region(0, self.view.size())]
+		
+		# --- get regions to decode/encode
+		regions = []
+		empty_positions = []
+		restoreEmpty = False
 
-		# --- chose encode/decode dictionary	
+		for region in self.view.sel() :
+			if region.empty():
+				empty_positions.append(self.view.rowcol(region.a))
+			else : 			
+				regions.append(region)
+		if not regions :
+			# if all regions are empty
+			# get the entire document
+			regions = [sublime.Region(0, self.view.size())]
+			# and indicate to restore empty positions at the end
+			restoreEmpty = True
+
+		# --- chose encode/decode dictionary
 		if action == "decode" :
 			dict = latex_read_dict
 		elif action == "encode" :
@@ -27,7 +35,9 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 
 		edit = self.view.begin_edit()
 		# ---------------------------
-		for region in regions :		
+		# replace accents in all regions (in reverse order)
+		# ---------------------------
+		for region in reversed(regions) :		
 			text = self.view.substr(region)
 			for key in dict:
 				text = text.replace(key,dict[key])
@@ -35,14 +45,30 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 			self.view.replace(edit, region, text)
 		# ---------------------------	
 		self.view.end_edit(edit)
-		for point in regions_empty :		
-			self.view.sel().add(self.view.text_point(point[0],point[1]))
 
-		# move the viewport to the original position	
+		# --- restore empty positions if necessary
+		if restoreEmpty :
+			self.view.sel().clear()
+			for point in empty_positions :		
+				print point
+				self.view.sel().add(self.view.text_point(point[0],point[1]))
+
+		# --- move the viewport to the original position
 		self.view.set_viewport_position((0,0),False)
 		self.view.set_viewport_position(vpos,False)
 
+	def description(action="decode") :
+		# I don't know where this description is visible
+		if action == "decode" :
+			return("Decode LaTeX accents like \'e to letters with accents like é.")	
+		elif action == "encode" :
+			return("Encode letters with accents like é to LaTeX accents like \'e.")	
+		else : 
+			return("undefined action")	
 
+	def is_visible(self) :
+		# visible only in LaTeX files
+		return re.search("LaTeX", self.view.settings().get('syntax'))
 
 # ---------------------------------------- READ DICTIONARY
 latex_read_dict = {
