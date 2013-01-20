@@ -13,22 +13,23 @@ Or manualy:
 
 1. open the Sublime Text 2 Packages folder
 
-    - OS X: ~/Library/Application Support/Sublime Text 2/Packages/
-    - Windows: %APPDATA%/Sublime Text 2/Packages/
-    - Linux: ~/.Sublime Text 2/Packages/
+        - OS X: ~/Library/Application Support/Sublime Text 2/Packages/
+        - Windows: %APPDATA%/Sublime Text 2/Packages/
+        - Linux: ~/.Sublime Text 2/Packages/
+    
 2. clone this repo.
 
 How to use
 ----------
-To transform all letters with accents (like é,à,î, ...) to LaTeX accents (\'e, \\\`a, \\\^\i, ...) :
+To transform all letters with accents (like é,à,î, ...) to LaTeX accents (\'e, \\\`a, \\\^\i, ... ) :
 
 1. open Command Pannel (`Ctrl+Shift+P` by default);
-2. select "LaTeXAccents: Encode accents" (_hint_ : you can type something shorter like "ltxenc").
+2. select "LaTeXAccents: Encode accents" ( _hint_ : you can type something shorter like "ltxenc").
 
 To transform all letters with LaTeX accents (\'e, \\\`a, \\\^\i, ...) to letters with accents (like é,à,î, ...):
 
 1. open Command Pannel (`Ctrl+Shift+P` by default);
-2. select "LaTeXAccents: Decode accents" (_hint_ : you can type something shorter like "ltxdec")
+2. select "LaTeXAccents: Decode accents" ( _hint_ : you can type something shorter like "ltxdec" )
 
 _Hint_ : If your file contains accents you should :
 
