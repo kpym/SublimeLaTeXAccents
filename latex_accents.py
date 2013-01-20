@@ -2,19 +2,49 @@
 import sublime, sublime_plugin
 import re
 
-class DecodeLatexAccentsCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		# take all the document text and put it in 'ducument' string
-		region = sublime.Region(0, self.view.size())
-		document = self.view.substr(region)
-		# replace all
-		for key in latex_read_dict:
-			document = document.replace(key,latex_read_dict[key])
-		# and make the replacement
-		edit = self.view.begin_edit()
-		self.view.replace(edit, region, document) 
-		self.view.end_edit(edit)
+class LatexAccentsCommand(sublime_plugin.TextCommand):
+	def run(self, edit, action="decode"):
+		# --- get regions to decode/encode
+		vpos = self.view.viewport_position()
+		regions_empty = []
+		regions = self.view.sel()
+		for region in regions :
+			if region.empty():
+				regions.subtract(region)
+				regions_empty.append(self.view.rowcol(region.a))
+		if not regions :
+			# take the entire document
+			regions = [sublime.Region(0, self.view.size())]
 
+		# --- chose encode/decode dictionary	
+		if action == "decode" :
+			dict = latex_read_dict
+		elif action == "encode" :
+			dict = latex_write_dict
+		else :
+			print 'Error in latex-accents : action \''+action+'\' unknown !'
+			return
+
+		edit = self.view.begin_edit()
+		# ---------------------------
+		for region in regions :		
+			text = self.view.substr(region)
+			for key in dict:
+				text = text.replace(key,dict[key])
+			# and make the replacement
+			self.view.replace(edit, region, text)
+		# ---------------------------	
+		self.view.end_edit(edit)
+		for point in regions_empty :		
+			self.view.sel().add(self.view.text_point(point[0],point[1]))
+
+		# move the viewport to the original position	
+		self.view.set_viewport_position((0,0),False)
+		self.view.set_viewport_position(vpos,False)
+
+
+
+# ---------------------------------------- READ DICTIONARY
 latex_read_dict = {
 "{!`}" : u"¡",
 "{\\pounds}" : u"£",
@@ -187,3 +217,74 @@ latex_read_dict = {
 }
 
 
+# ---------------------------------------- WRITE DICTIONARY
+latex_write_dict = {
+u"¡" : "{!`}",
+u"£" : "{\\pounds}",
+u"§" : "{\\S}",
+u"©" : "{\\copyright}",
+u"±" : "{\\pm}",
+u"¶" : "{\\P}",
+u"·" : "{\\cdot}",
+u"¿" : "{?`}",
+u"÷" : "{\\div}",
+u"×" : "{\\times}",
+u"ø" : "{\\o}",
+u"Ø" : "{\\O}",
+u"À" : "\\`A",
+u"Á" : "\\'A",
+u"Â" : "\\^A",
+u"Ã" : "\\~A",
+u"Ä" : "\\\"A",
+u"Å" : "{\\AA}",
+u"Æ" : "{\\AE}",
+u"Ç" : "\\c{C}",
+u"È" : "\\`E",
+u"É" : "\\'E",
+u"Ê" : "\\^E",
+u"Ë" : "\\\"E",
+u"Ì" : "\\`I",
+u"Í" : "\\'I",
+u"Î" : "\\^I",
+u"Ï" : "\\\"I",
+u"Ñ" : "\\~N",
+u"Ò" : "\\`O",
+u"Ó" : "\\'O",
+u"Ô" : "\\^O",
+u"Õ" : "\\~O",
+u"Ö" : "\\\"O",
+u"Ù" : "\\`U",
+u"Ú" : "\\'U",
+u"Û" : "\\^U",
+u"Ü" : "\\\"U",
+u"Ý" : "\\'Y",
+u"ß" : "{\\ss}",
+u"à" : "\\`a",
+u"á" : "\\'a",
+u"â" : "\\^a",
+u"ã" : "\\~a",
+u"ä" : "\\\"a",
+u"å" : "{\\aa}",
+u"æ" : "{\\ae}",
+u"ç" : "\\c{c}",
+u"è" : "\\`e",
+u"é" : "\\'e",
+u"ê" : "\\^e",
+u"ë" : "\\\"e",
+u"ì" : "{\\`\\i}",
+u"í" : "{\\'\\i}",
+u"î" : "{\\^\\i}",
+u"ï" : "{\\\"\\i}",
+u"ñ" : "\\~n",
+u"ò" : "\\`o",
+u"ó" : "\\'o",
+u"ô" : "\\^o",
+u"õ" : "\\~o",
+u"ö" : "\\\"o",
+u"ù" : "\\`u",
+u"ú" : "\\'u",
+u"û" : "\\^u",
+u"ü" : "\\\"u",
+u"ý" : "\\'y",
+u"ÿ" : "\\\"y",
+}
