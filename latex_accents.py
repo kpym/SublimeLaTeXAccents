@@ -50,7 +50,6 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 		if restoreEmpty :
 			self.view.sel().clear()
 			for point in empty_positions :		
-				print point
 				self.view.sel().add(self.view.text_point(point[0],point[1]))
 
 		# --- move the viewport to the original position
