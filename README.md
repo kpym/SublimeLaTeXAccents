@@ -16,8 +16,8 @@ Or manualy:
         - OS X: ~/Library/Application Support/Sublime Text 2/Packages/
         - Windows: %APPDATA%/Sublime Text 2/Packages/
         - Linux: ~/.Sublime Text 2/Packages/
-    
-2. clone this repo.
+
+2. clone this repo (`git clone git://github.com/kpym/SublimeLaTeXAccents LaTeXAccents`).
 
 How to use
 ----------
@@ -31,6 +31,11 @@ To transform all letters with LaTeX accents (\'e, \\\`a, \\\^\i, ...) to letters
 1. open Command Pannel (`Ctrl+Shift+P` by default);
 2. select "LaTeXAccents: Decode accents" ( _hint_ : you can type something shorter like "ltxdec" )
 
+To remove accents from all letters (letters é,à,î,... became e,a,i,... ) :
+
+1. open Command Pannel (`Ctrl+Shift+P` by default);
+2. select "LaTeXAccents: Remove accents" ( _hint_ : you can type something shorter like "ltxrmv").
+
 _Hint_ : If your file contains accents you should :
 
 1. save the file using appropriate encoding (for example `ISO 8859-1` or `UTF-8`);
@@ -41,3 +46,4 @@ Commands
 
 * `encode_latex_accents`: Encode all letters with accents to latex accents.
 * `decode_latex_accents`: Decode all letters with latex accents to 'normal' letters with accents.
+* `remove_accents`: Remove all accents from 'normal' letters with accents.
