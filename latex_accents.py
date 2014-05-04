@@ -42,7 +42,6 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 		for region in reversed(regions) :
 			text = self.view.substr(region)
 			for tr in transform_arr:
-				print tr[0]+"=>"+tr[1]
 				text = text.replace(tr[0],tr[1])
 			# and make the replacement
 			self.view.replace(edit, region, text)
