@@ -1,6 +1,6 @@
-LaTeXAccents for Sublime Text 2
-===============================
-This is a plugin for [Sublime Text 2](http://www.sublimetext.com/2).
+LaTeXAccents for Sublime Text 2 and 3
+=====================================
+This is a plugin for [Sublime Text 2](http://www.sublimetext.com/2) and [Sublime Text 3](http://www.sublimetext.com/3).
 It decode and encode letters with accents in LaTeX files.
 
 

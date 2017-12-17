@@ -32,10 +32,9 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 		elif action == "remove" :
 			transform_arr = remove_arr
 		else :
-			print 'Error in latex-accents : action \''+action+'\' unknown !'
+			print('Error in latex-accents : action \''+action+'\' unknown !')
 			return
 
-		edit = self.view.begin_edit()
 		# ---------------------------
 		# replace accents in all regions (in reverse order)
 		# ---------------------------
@@ -46,7 +45,6 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 			# and make the replacement
 			self.view.replace(edit, region, text)
 		# ---------------------------
-		self.view.end_edit(edit)
 
 		# --- restore empty positions if necessary
 		if restoreEmpty :
@@ -71,7 +69,7 @@ class LatexAccentsCommand(sublime_plugin.TextCommand):
 
 	def is_visible(self) :
 		# visible only in LaTeX files
-		return re.search("LaTeX", self.view.settings().get('syntax'))
+		return "LaTeX" in self.view.settings().get('syntax')
 
 # ---------------------------------------- READ DICTIONARY
 latex_read_arr = [
