@@ -1,7 +1,7 @@
 [
-	{ "caption": "LaTeX Accents: Encode accents", "command": "latex_accents",
+  { "caption": "LaTeX Accents: Encode accents", "command": "latex_accents",
                 "args": {"action": "encode"}},
-	{ "caption": "LaTeX Accents: Decode accents", "command": "latex_accents",
+  { "caption": "LaTeX Accents: Decode accents", "command": "latex_accents",
                 "args": {"action": "decode"}},
   { "caption": "LaTeX Accents: Remove accents", "command": "latex_accents",
                 "args": {"action": "remove"}}

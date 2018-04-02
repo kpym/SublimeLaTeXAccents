@@ -3,73 +3,73 @@ import sublime, sublime_plugin
 import re
 
 class LatexAccentsCommand(sublime_plugin.TextCommand):
-	def run(self, edit, action="decode"):
-		# --- save position to restore at the end
-		vpos = self.view.viewport_position()
+  def run(self, edit, action="decode"):
+    # --- save position to restore at the end
+    vpos = self.view.viewport_position()
 
-		# --- get regions to decode/encode
-		regions = []
-		empty_positions = []
-		restoreEmpty = False
+    # --- get regions to decode/encode
+    regions = []
+    empty_positions = []
+    restoreEmpty = False
 
-		for region in self.view.sel() :
-			if region.empty():
-				empty_positions.append(self.view.rowcol(region.a))
-			else :
-				regions.append(region)
-		if not regions :
-			# if all regions are empty
-			# get the entire document
-			regions = [sublime.Region(0, self.view.size())]
-			# and indicate to restore empty positions at the end
-			restoreEmpty = True
+    for region in self.view.sel() :
+      if region.empty():
+        empty_positions.append(self.view.rowcol(region.a))
+      else :
+        regions.append(region)
+    if not regions :
+      # if all regions are empty
+      # get the entire document
+      regions = [sublime.Region(0, self.view.size())]
+      # and indicate to restore empty positions at the end
+      restoreEmpty = True
 
-		# --- chose encode/decode/remove dictionary
-		if action == "decode" :
-			transform_arr = latex_read_arr
-		elif action == "encode" :
-			transform_arr = latex_write_arr
-		elif action == "remove" :
-			transform_arr = remove_arr
-		else :
-			print('Error in latex-accents : action \''+action+'\' unknown !')
-			return
+    # --- chose encode/decode/remove dictionary
+    if action == "decode" :
+      transform_arr = latex_read_arr
+    elif action == "encode" :
+      transform_arr = latex_write_arr
+    elif action == "remove" :
+      transform_arr = remove_arr
+    else :
+      print('Error in latex-accents : action \''+action+'\' unknown !')
+      return
 
-		# ---------------------------
-		# replace accents in all regions (in reverse order)
-		# ---------------------------
-		for region in reversed(regions) :
-			text = self.view.substr(region)
-			for tr in transform_arr:
-				text = text.replace(tr[0],tr[1])
-			# and make the replacement
-			self.view.replace(edit, region, text)
-		# ---------------------------
+    # ---------------------------
+    # replace accents in all regions (in reverse order)
+    # ---------------------------
+    for region in reversed(regions) :
+      text = self.view.substr(region)
+      for tr in transform_arr:
+        text = text.replace(tr[0],tr[1])
+      # and make the replacement
+      self.view.replace(edit, region, text)
+    # ---------------------------
 
-		# --- restore empty positions if necessary
-		if restoreEmpty :
-			self.view.sel().clear()
-			for point in empty_positions :
-				self.view.sel().add(self.view.text_point(point[0],point[1]))
+    # --- restore empty positions if necessary
+    if restoreEmpty :
+      self.view.sel().clear()
+      for point in empty_positions :
+        self.view.sel().add(self.view.text_point(point[0],point[1]))
 
-		# --- move the viewport to the original position
-		self.view.set_viewport_position((0,0),False)
-		self.view.set_viewport_position(vpos,False)
+    # --- move the viewport to the original position
+    self.view.set_viewport_position((0,0),False)
+    self.view.set_viewport_position(vpos,False)
 
-	def description(action="decode") :
-		# I don't know where this description is visible
-		if action == "decode" :
-			return("Decode LaTeX accents like \'e to letters with accents like é.")
-		elif action == "encode" :
-			return("Encode letters with accents like é to LaTeX accents like \'e.")
-		elif action == "remove" :
-			return("Remove accents frome letters, for example 'é' became 'e'.")
-		else :
-			return("undefined action")
+  def description(action="decode") :
+    # I don't know where this description is visible
+    if action == "decode" :
+      return("Decode LaTeX accents like \'e to letters with accents like é.")
+    elif action == "encode" :
+      return("Encode letters with accents like é to LaTeX accents like \'e.")
+    elif action == "remove" :
+      return("Remove accents frome letters, for example 'é' became 'e'.")
+    else :
+      return("undefined action")
 
-	def is_visible(self) :
-		# visible only in LaTeX files
-		return "LaTeX" in self.view.settings().get('syntax')
+  def is_visible(self) :
+    # visible only in LaTeX files
+    return "LaTeX" in self.view.settings().get('syntax')
 
 # ---------------------------------------- READ DICTIONARY
 latex_read_arr = [
