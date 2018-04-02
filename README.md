@@ -11,11 +11,16 @@ Using [Package Control](http://wbond.net/sublime_packages/package_control), inst
 
 Or manualy:
 
-1. open the Sublime Text 2 Packages folder
+1a. open the Sublime Text Packages folder
 
-        - OS X: ~/Library/Application Support/Sublime Text 2/Packages/
-        - Windows: %APPDATA%/Sublime Text 2/Packages/
-        - Linux: ~/.Sublime Text 2/Packages/
+  - for ST2
+    - OS X: ~/Library/Application Support/Sublime Text 2/Packages/
+    - Windows: %APPDATA%/Sublime Text 2/Packages/
+    - Linux: ~/.Sublime Text 2/Packages/
+  - for ST3
+    - OS X: ~/Library/Application Support/Sublime Text 3/Data/Packages/
+    - Windows: %programfiles%/Sublime Text 3/Data/Packages/
+    - Linux: ~/.Sublime Text 3/Data/Packages/
 
 2. clone this repo (`git clone git://github.com/kpym/SublimeLaTeXAccents LaTeXAccents`).
 
